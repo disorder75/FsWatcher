@@ -1,0 +1,47 @@
+logging:
+  level:
+    .: error
+    org.springframework: ERROR
+    eu.europa: ERROR
+
+spring:
+  application:
+    name: @project.name@
+  profiles:
+    active: "dev"
+  main:
+    banner-mode: "console"
+
+server:
+  email: support.aris@lutech.it
+
+watcher:
+  recursive: true
+  folders: 
+    - /
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+logging:
+  level:
+    .: error
+    org.springframework: DEBUG
+    eu.europa: DEBUG
+          
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+logging:
+  level:
+    .: error
+    org.springframework: ERROR
+    eu.europa: INFO
