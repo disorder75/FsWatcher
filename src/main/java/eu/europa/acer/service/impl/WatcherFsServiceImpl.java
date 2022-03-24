@@ -35,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 public class WatcherFsServiceImpl implements eu.europa.acer.service.WatcherFsService {
 
+	private static final String UNSUPPORTED_EVENT = "Unsupported event {}";
 	private static final String IGNORING_EVENT_ON_UNKNOWN_TYPE_FILE = "ignoring event on unknown type file {}";
 	private static final String RECEIVED_EVENT = "received event {}: {}";
 	private static final String FAILED_TO_MONITOR_THE_NEW_CREATED_RESOURCE = "Failed to monitor the new (created) resource {}";
@@ -166,11 +167,13 @@ public class WatcherFsServiceImpl implements eu.europa.acer.service.WatcherFsSer
 					 *		Deliver to Rabbit (file updated or chunked)
 					 */
 					publishService.publish(child.toString());
-				} else {
+				} else if (kind == ENTRY_DELETE) {
 					/*
-					 *		TBD: deleted resource 
+					 *		Delete pending event (if present)
 					 */
-						/* ... */
+					publishService.remove(child.toString());
+				} else {
+					log.warn(UNSUPPORTED_EVENT, kind.name());
 				}
 			}
 

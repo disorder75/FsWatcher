@@ -6,7 +6,7 @@ logging:
 
 spring:
   application:
-    name: @project.name@
+    name: FsWatcher
   profiles:
     active: "dev"
   main:
@@ -18,7 +18,7 @@ server:
 watcher:
   recursive: true
   folders: 
-    - /
+    - /tmp
 
 ---
 
