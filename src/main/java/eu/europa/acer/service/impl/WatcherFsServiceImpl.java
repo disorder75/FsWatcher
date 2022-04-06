@@ -19,6 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.availability.ApplicationAvailability;
+import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.LivenessState;
+import org.springframework.boot.availability.ReadinessState;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import eu.europa.acer.fswatcher.config.WatcherConfig;
@@ -35,9 +40,9 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 public class WatcherFsServiceImpl implements eu.europa.acer.service.WatcherFsService {
 
+	private static final String FAILED_TO_MOUNT_THE_REQUESTED_FOLDERS = "Failed to mount the requested folders";
 	private static final String UNSUPPORTED_EVENT = "Unsupported event {}";
 	private static final String IGNORING_EVENT_ON_UNKNOWN_TYPE_FILE = "ignoring event on unknown type file {}";
-	private static final String RECEIVED_EVENT = "received event {}: {}";
 	private static final String FAILED_TO_MONITOR_THE_NEW_CREATED_RESOURCE = "Failed to monitor the new (created) resource {}";
 	private static final String OVERFLOW_EVENTS_FROM_FILESYSTEM = "overflow events from filesystem";
 	private static final String INVALID_WATCH_KEY = "Invalid WatchKey";
@@ -57,6 +62,11 @@ public class WatcherFsServiceImpl implements eu.europa.acer.service.WatcherFsSer
 	private WatcherConfig watcherConfig;
 	@Autowired
 	private PublishService publishService;
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+    @Autowired
+    private ApplicationAvailability availability;
+
 
 	/**
 	 *	 Register the given directory with the WatchService
@@ -96,21 +106,48 @@ public class WatcherFsServiceImpl implements eu.europa.acer.service.WatcherFsSer
 
 	@Override
 	public void pollAndDispatchEvents() throws IOException {
-
+		
 		recursive = watcherConfig.getRecursive();
 		
 		// init
 		initWatcher();
 		
 		// configure folders
-		watcherConfig.getFolders().forEach(f -> {
-													Path path = Path.of(f);
-													try {
-														register(path, recursive);
-													} catch (IOException e) {
-														log.error(FAILED_TO_MONITOR_PATH, f, e);
-													}
-												});
+		boolean mount = false;
+		for (String f : watcherConfig.getFolders()) {
+			Path path = Path.of(f);
+			mount = false;
+			for (int i=0; i < 3 && !mount; i++) {
+				try {
+					register(path, recursive);
+					mount = true;
+				} catch (IOException e) {
+					log.error(FAILED_TO_MONITOR_PATH, f, e);
+				} finally {
+					if (!mount) {
+						// give some time to the other task to mount the filesystem
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) { /**/ }
+					} 
+				}
+			}
+			if (!mount) break;
+		}
+		
+		if (!mount) {
+			log.error(FAILED_TO_MOUNT_THE_REQUESTED_FOLDERS);
+			AvailabilityChangeEvent.publish(eventPublisher, this, ReadinessState.REFUSING_TRAFFIC);
+			/* 
+			 * 		waiting the killing signal from K8s
+			 */
+			while(true) {
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e) { /**/ }
+			}
+		}
+		
 		// poll & dispatch
 		while (true) {
 
@@ -134,7 +171,16 @@ public class WatcherFsServiceImpl implements eu.europa.acer.service.WatcherFsSer
 				// losing events from fs!
 				if (kind == OVERFLOW) {
 					log.error(OVERFLOW_EVENTS_FROM_FILESYSTEM);
+					AvailabilityChangeEvent.publish(eventPublisher, 
+													this, 
+													ReadinessState.REFUSING_TRAFFIC);
 					continue;
+				} else if (availability.getLivenessState() == LivenessState.CORRECT &&
+						   availability.getReadinessState() == ReadinessState.REFUSING_TRAFFIC) {
+					// on-air again
+					AvailabilityChangeEvent.publish(eventPublisher, 
+													this, 
+													ReadinessState.ACCEPTING_TRAFFIC);
 				}
 
 				// Context for directory entry event is the file name of entry

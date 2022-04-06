@@ -1,22 +1,42 @@
-          `                    ;~;/x++}rr1=^~~;'` 
-     -<1;              |r*=~}f4X4XqDHq344C43X27)=r
-  ;}sr          `   -^7pKR0R0&&&00&BB&00DHDHSkjvv3
-roh}            <zt}AKg&&0000R&00&&&&DKHq4pmQ0gHyp
-Uf,        -  !s}~;+4kH#KDHf42hSGKgqpDGKR004Kpyho7
-_         ,^hy}   :72322FskFmHSSSq#UkhIC4kqGAqC*r<
-        ;fyfr     )4yv=!~1zk#QBNN&Dk1, `:!=ikKmz~;
-       .~j!       z[   ,~+24KBNMNNNg<    ` ;[p#C-`
-`    ;\[~         /^     ,1F&NBMNKGBy     -~sKQU. 
- _)fjt1           `;      ~ogBNMMNMNj      .1#KU` 
-:^=}+             `;~`     !7gNNNMN0^       ^qK2  
-t}[~              ,;.-,     `]UK0R4;       .+Am}  
-fi|                ^|^        _=|//        r2#4_  
-j~`                ))-' `_.    ,  !      ,^]2X1   
-t\.                 ~~;~;~    ,,: `      ;)Cqr    
-i+\:                 ^}}v1- ,;~-^_-   . ;+II|    `
-Fx}\,                 /z3f1;)!!\r; '   /iFj;    `-
-Ahy}^                   /oziz^\1j7~_~~\7r_      .`
-yt='                        _;r+)1^r/;            
-)|_                                               
-]=.                           .               ..,,
-Filesystem monitoring daemon and event publisher
+La focaccia alla genovese, in dialetto “a fügassa” 
+
+                                       `                    
+                           ````    ./zt^;`                  
+                           `:tu;:'!@@@@QKt'                 
+                `       :Co@@@@@@@@}j@@O~'?,``              
+                ``     :@@@DUpQ@@@Q: !C@@@S9Q%;             
+                   .D@Q@Q~''iS~@@@@@@@@@@@g:|v^|:`          
+                `  ^>i#aOz  ^pvXB@@@Q@@t ;u@@KtB@@a`        
+         :oK!     !vtt\::cQ@#; `z^ug@Q@@@4vp@:`}!!4K?,      
+     :z `^|uRD4EaSOEov'   !##? ..`'!jEQ@@@u\O@D  '!\UX:     
+    ,,!!''^jWQu}A#QQBdEXu\.`~4u\/'' .\#@@@4 :CQ@N4CQQNW:    
+    :!^:,;\abj``:^^##pj44jc^. =X%^?oN@Q@@@@@Q#BBQQ%z>!\9t   
+      .:!' .!vc>^}NQ?,^:~Sa:    ;?dO|'|UR@Q,'t\\b#` `` !C\' 
+         '`  `` '\tvuAa; '       ^4| `,@@QQ}'``'bbO!   :~   
+             ``   `'=|,`           /^''CpAz?,:=^,           
+                   '>,              clSl,                   
+                                     :                      
+                                                            
+                                                            
+INGREDIENTI PER 2 TEGLIE DA 30X40 CM
+- Farina 00 (W=280) 400 g
+- Farina Manitoba (W=400) 250 g
+- Acqua (a temperatura ambiente) 335 g
+- Sale fino 13 g
+- Malto 10 g
+- Lievito di birra fresco 18 g
+- Olio extravergine d'oliva 30 g
+
+PER UNGERE LE TEGLIE
+- Olio extravergine d'oliva 30 g
+
+PER LA SUPERFICIE
+- Olio extravergine d'oliva 60 g
+
+PER LA SALAMOIA
+- Sale 10 g
+- Acqua 200 g                                         
+
+Stay hungry my friend  
+                                
+Filesystem monitoring and event publisher

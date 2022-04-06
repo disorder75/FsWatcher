@@ -11,14 +11,35 @@ spring:
     active: "dev"
   main:
     banner-mode: "console"
+  rabbitmq:
+    dynamic: false
+    host: localhost
+    port: 6672
+    username: guest
+    password: guest
 
 server:
+  port: 8080
   email: support.aris@lutech.it
 
 watcher:
   recursive: true
   folders: 
     - /tmp
+
+processbuilder:
+    args: 
+      - ${COMMAND_ARGS}
+
+management:
+  health:
+    defaults:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
 
 ---
 

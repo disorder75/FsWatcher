@@ -1,15 +1,10 @@
 package eu.europa.acer.runner;
 
-import java.nio.file.Path;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Service;
-
-import eu.europa.acer.fswatcher.config.WatcherConfig;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import eu.europa.acer.service.WatcherFsService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
  *	- Register for filesystem events
  *	- Routes the events to the right queue 
  */
-@Service
+@Component
+@Order(2)
+@Profile("!test")
 @Slf4j
 public class DispatcherHandler implements CommandLineRunner {
 

@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PublishServiceImpl implements PublishService {
 	
-	private static final String EVENT_ALREADY_DELIVERED_ON_DELETED_FILE = "client has removed the file {} on an event already delivered";
-	private static final String CLIENT_HAS_DELETED_THE_FILE_DELETE_THE_PENDING_EVENT = "client has deleted the file {}, delete the pending event";
-	private static final String PUBLISH_FILE_ON_THE_MESSAGE_BROKER = "publish file {} on the message broker";
+	private static final String EVENT_ALREADY_DELIVERED_ON_DELETED_FILE = "client has removed the file {}, not found into the events table (already published?)";
+	private static final String CLIENT_HAS_DELETED_THE_FILE_DELETE_THE_PENDING_EVENT = "client has deleted the file {}, removing also from the events table";
+	private static final String PUBLISH_FILE_ON_THE_MESSAGE_BROKER = "publishing the file {} on the message broker";
 	private static final int EVT_WAIT_COMPLETED_MS = 30000;
 	
 	Map<String, Timer> mTimers = new HashMap<>();
